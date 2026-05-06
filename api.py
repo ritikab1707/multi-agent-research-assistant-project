@@ -18,53 +18,45 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Request and Response models ---
-
 class ResearchRequest(BaseModel):
     query: str
 
 class ResearchResponse(BaseModel):
     query: str
+    sub_questions: list[str]   # ← new
     report: str
-    source: str  # "memory" or "live_research"
+    source: str
 
-
-# --- Endpoints ---
 
 @app.get("/")
 def root():
-    """Health check — confirms the API is running."""
     return {"status": "running", "message": "Multi-Agent Research Assistant is live"}
 
 
 @app.post("/research", response_model=ResearchResponse)
 def research(request: ResearchRequest):
-    """
-    Main endpoint. Takes a research query and returns a report.
-    Checks memory first — runs full pipeline if no match found.
-    """
     if not request.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty")
 
     try:
-        # Check memory before running pipeline
         cached = find_similar_research(request.query)
 
         if cached:
             return ResearchResponse(
                 query=request.query,
+                sub_questions=[],   # memory hits skip planning
                 report=cached,
                 source="memory"
             )
 
-        # Run full pipeline
-        report = run_research_agent(request.query)
+        report, sub_questions = run_research_agent(request.query)
 
         if report.startswith("Planning failed") or report.startswith("Search failed"):
             raise HTTPException(status_code=500, detail=report)
 
         return ResearchResponse(
             query=request.query,
+            sub_questions=sub_questions,
             report=report,
             source="live_research"
         )
@@ -77,17 +69,12 @@ def research(request: ResearchRequest):
 
 @app.get("/memory")
 def get_memory():
-    """Returns all past research queries stored in memory."""
     past = list_past_research()
-    return {
-        "total": len(past),
-        "past_queries": past
-    }
+    return {"total": len(past), "past_queries": past}
 
 
 @app.delete("/memory")
 def clear_memory():
-    """Clears all stored research from memory."""
     try:
         import chromadb
         client = chromadb.PersistentClient(path="agent_memory")

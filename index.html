@@ -39,7 +39,6 @@
         overflow-x: hidden;
       }
 
-      /* Background grid */
       body::before {
         content: "";
         position: fixed;
@@ -73,9 +72,6 @@
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 16px;
-      }
-
-      .logo-block {
       }
 
       .logo {
@@ -119,6 +115,12 @@
         background: var(--accent);
         box-shadow: 0 0 8px var(--accent);
         animation: pulse 2s infinite;
+      }
+
+      .status-dot.offline {
+        background: var(--danger);
+        box-shadow: 0 0 8px var(--danger);
+        animation: none;
       }
 
       @keyframes pulse {
@@ -197,19 +199,18 @@
         background: #d8ff6a;
         transform: translateY(-1px);
       }
-
       .run-btn:disabled {
         opacity: 0.4;
         cursor: not-allowed;
         transform: none;
       }
 
-      /* Example queries */
       .examples {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
         margin-top: 12px;
+        align-items: center;
       }
 
       .example-chip {
@@ -230,7 +231,39 @@
         background: var(--accent-dim2);
       }
 
-      /* Pipeline status */
+      /* Error */
+      .error-box {
+        display: none;
+        background: rgba(255, 77, 77, 0.08);
+        border: 1px solid rgba(255, 77, 77, 0.25);
+        border-radius: 8px;
+        padding: 16px 20px;
+        font-size: 13px;
+        color: var(--danger);
+        margin-bottom: 24px;
+      }
+      .error-box.visible {
+        display: block;
+      }
+
+      /* Memory hit badge */
+      .memory-badge {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        background: var(--memory-dim);
+        border: 1px solid rgba(77, 159, 255, 0.25);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        color: var(--memory);
+      }
+      .memory-badge.visible {
+        display: flex;
+      }
+
+      /* Pipeline */
       .pipeline {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -239,7 +272,6 @@
         margin-bottom: 32px;
         display: none;
       }
-
       .pipeline.visible {
         display: block;
       }
@@ -267,7 +299,6 @@
         opacity: 0.3;
         transition: opacity 0.3s;
       }
-
       .step.active {
         opacity: 1;
       }
@@ -309,8 +340,6 @@
         }
       }
 
-      .step-info {
-      }
       .step-name {
         font-family: "Syne", sans-serif;
         font-size: 13px;
@@ -323,33 +352,65 @@
         margin-top: 2px;
       }
 
-      /* Memory badge */
-      .memory-badge {
-        display: none;
-        align-items: center;
-        gap: 10px;
-        background: var(--memory-dim);
-        border: 1px solid rgba(77, 159, 255, 0.25);
+      /* Sub-questions block */
+      .subq-block {
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: 8px;
-        padding: 14px 18px;
+        padding: 20px 24px;
         margin-bottom: 24px;
-        font-size: 13px;
-        color: var(--memory);
+        display: none;
+        animation: fadeUp 0.4s ease;
+      }
+      .subq-block.visible {
+        display: block;
       }
 
-      .memory-badge.visible {
+      .subq-title {
+        font-family: "Syne", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-tertiary);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+
+      .subq-item {
         display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 10px 0;
+        border-bottom: 0.5px solid var(--border);
       }
-      .memory-icon {
-        font-size: 18px;
+      .subq-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
       }
 
-      /* Report output */
+      .subq-num {
+        background: var(--accent-dim);
+        color: var(--accent);
+        border-radius: 4px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 600;
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-family: "Syne", sans-serif;
+      }
+
+      .subq-text {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Report */
       .report-section {
         display: none;
         animation: fadeUp 0.4s ease;
       }
-
       .report-section.visible {
         display: block;
       }
@@ -395,13 +456,11 @@
         letter-spacing: 0.06em;
         text-transform: uppercase;
       }
-
       .source-tag.live {
         background: var(--accent-dim);
         color: var(--accent);
         border: 1px solid rgba(200, 245, 90, 0.25);
       }
-
       .source-tag.memory {
         background: var(--memory-dim);
         color: var(--memory);
@@ -419,7 +478,6 @@
         cursor: pointer;
         transition: all 0.15s;
       }
-
       .copy-btn:hover {
         border-color: var(--accent);
         color: var(--accent);
@@ -471,7 +529,6 @@
         cursor: pointer;
         transition: all 0.15s;
       }
-
       .clear-btn:hover {
         border-color: var(--danger);
         color: var(--danger);
@@ -496,7 +553,6 @@
         cursor: pointer;
         transition: all 0.15s;
       }
-
       .memory-item:hover {
         border-color: var(--memory);
         color: var(--memory);
@@ -517,22 +573,6 @@
         padding: 16px 0;
       }
 
-      /* Error */
-      .error-box {
-        display: none;
-        background: rgba(255, 77, 77, 0.08);
-        border: 1px solid rgba(255, 77, 77, 0.25);
-        border-radius: 8px;
-        padding: 16px 20px;
-        font-size: 13px;
-        color: var(--danger);
-        margin-bottom: 24px;
-      }
-
-      .error-box.visible {
-        display: block;
-      }
-
       /* Footer */
       footer {
         margin-top: 80px;
@@ -549,7 +589,8 @@
 
       .footer-stack {
         display: flex;
-        gap: 16px;
+        gap: 8px;
+        flex-wrap: wrap;
       }
 
       .footer-tag {
@@ -563,15 +604,16 @@
   </head>
   <body>
     <div class="container">
+      <!-- Header -->
       <header>
         <div class="header-inner">
-          <div class="logo-block">
+          <div>
             <div class="logo">Scout<span>_</span></div>
             <div class="tagline">Multi-Agent Sales Research System</div>
           </div>
           <div class="status-pill">
-            <div class="status-dot"></div>
-            <span id="statusText">API connected</span>
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">Checking API...</span>
           </div>
         </div>
       </header>
@@ -591,11 +633,7 @@
           </button>
         </div>
         <div class="examples">
-          <span
-            class="section-label"
-            style="align-self: center; margin-bottom: 0"
-            >Try:</span
-          >
+          <span class="section-label" style="margin-bottom: 0">Try:</span>
           <div
             class="example-chip"
             onclick="setQuery('Research HubSpot for my sales call')"
@@ -628,45 +666,47 @@
 
       <!-- Memory hit badge -->
       <div class="memory-badge" id="memoryBadge">
-        <span class="memory-icon">⚡</span>
+        <span style="font-size: 18px">⚡</span>
         <span>Returned from memory — no API calls made</span>
       </div>
 
-      <!-- Pipeline status -->
+      <!-- Pipeline -->
       <div class="pipeline" id="pipeline">
         <div class="pipeline-title">Agent pipeline</div>
         <div class="steps">
           <div class="step" id="step0">
             <div class="step-icon">🧠</div>
-            <div class="step-info">
+            <div>
               <div class="step-name">Memory check</div>
               <div class="step-desc">Looking for similar past research</div>
             </div>
           </div>
           <div class="step" id="step1">
             <div class="step-icon">📋</div>
-            <div class="step-info">
+            <div>
               <div class="step-name">Planner agent</div>
               <div class="step-desc">Breaking query into sub-questions</div>
             </div>
           </div>
           <div class="step" id="step2">
             <div class="step-icon">🔍</div>
-            <div class="step-info">
+            <div>
               <div class="step-name">Searcher agent</div>
-              <div class="step-desc">Fetching live web results</div>
+              <div class="step-desc">
+                Fetching live web results per sub-question
+              </div>
             </div>
           </div>
           <div class="step" id="step3">
             <div class="step-icon">✍️</div>
-            <div class="step-info">
+            <div>
               <div class="step-name">Synthesizer agent</div>
               <div class="step-desc">Writing your research report</div>
             </div>
           </div>
           <div class="step" id="step4">
             <div class="step-icon">💾</div>
-            <div class="step-info">
+            <div>
               <div class="step-name">Saving to memory</div>
               <div class="step-desc">Storing for instant future retrieval</div>
             </div>
@@ -674,7 +714,13 @@
         </div>
       </div>
 
-      <!-- Report output -->
+      <!-- Sub-questions block -->
+      <div class="subq-block" id="subqBlock">
+        <div class="subq-title">Planner agent — sub-questions generated</div>
+        <div id="subqList"></div>
+      </div>
+
+      <!-- Report -->
       <div class="report-section" id="reportSection">
         <div class="report-header">
           <div class="report-meta">
@@ -711,22 +757,26 @@
     </div>
 
     <script>
-      const API = "https://multi-agent-research-assistant-project.onrender.com";
+      const API = "http://127.0.0.1:8000"; // Change to your Render URL when deploying
       let currentReport = "";
 
-      // Check API on load
+      // Check API status on load
       async function checkAPI() {
         try {
           const r = await fetch(`${API}/`);
           if (r.ok) {
+            document.getElementById("statusDot").classList.remove("offline");
             document.getElementById("statusText").textContent = "API connected";
+          } else {
+            throw new Error();
           }
         } catch {
+          document.getElementById("statusDot").classList.add("offline");
           document.getElementById("statusText").textContent = "API offline";
         }
       }
 
-      // Load memory on startup
+      // Load past research from memory
       async function loadMemory() {
         try {
           const r = await fetch(`${API}/memory`);
@@ -761,13 +811,13 @@
         document.getElementById("queryInput").focus();
       }
 
-      // Animate pipeline steps
-      function setStep(stepIndex, done = false) {
+      // Pipeline step animation
+      function setStep(index) {
         for (let i = 0; i <= 4; i++) {
           const el = document.getElementById(`step${i}`);
           el.classList.remove("active", "done");
-          if (i < stepIndex) el.classList.add("done");
-          if (i === stepIndex) el.classList.add("active");
+          if (i < index) el.classList.add("done");
+          if (i === index) el.classList.add("active");
         }
       }
 
@@ -779,19 +829,40 @@
         }
       }
 
+      function resetUI() {
+        document.getElementById("errorBox").classList.remove("visible");
+        document.getElementById("reportSection").classList.remove("visible");
+        document.getElementById("memoryBadge").classList.remove("visible");
+        document.getElementById("subqBlock").classList.remove("visible");
+        document.getElementById("subqList").innerHTML = "";
+        document.getElementById("pipeline").classList.add("visible");
+        document.getElementById("runBtn").disabled = true;
+        document.getElementById("runBtn").textContent = "Running...";
+      }
+
+      function renderSubQuestions(questions) {
+        if (!questions || questions.length === 0) return;
+        const html = questions
+          .map(
+            (q, i) => `
+      <div class="subq-item">
+        <span class="subq-num">Q${i + 1}</span>
+        <span class="subq-text">${q}</span>
+      </div>
+    `,
+          )
+          .join("");
+        document.getElementById("subqList").innerHTML = html;
+        document.getElementById("subqBlock").classList.add("visible");
+      }
+
       async function runResearch() {
         const query = document.getElementById("queryInput").value.trim();
         if (!query) return;
 
-        // Reset UI
-        document.getElementById("errorBox").classList.remove("visible");
-        document.getElementById("reportSection").classList.remove("visible");
-        document.getElementById("memoryBadge").classList.remove("visible");
-        document.getElementById("pipeline").classList.add("visible");
-        document.getElementById("runBtn").disabled = true;
-        document.getElementById("runBtn").textContent = "Running...";
+        resetUI();
 
-        // Animate steps with delays
+        // Animate steps
         setStep(0);
         await delay(600);
         setStep(1);
@@ -821,10 +892,15 @@
           allDone();
           await delay(300);
 
-          // Show memory badge if from cache
+          // Hide pipeline
+          document.getElementById("pipeline").classList.remove("visible");
+
           if (data.source === "memory") {
-            document.getElementById("pipeline").classList.remove("visible");
+            // Memory hit — show badge, skip sub-questions
             document.getElementById("memoryBadge").classList.add("visible");
+          } else {
+            // Live research — show sub-questions
+            renderSubQuestions(data.sub_questions);
           }
 
           // Show report
@@ -832,7 +908,6 @@
           sourceTag.textContent =
             data.source === "memory" ? "⚡ From memory" : "🔍 Live research";
           sourceTag.className = `source-tag ${data.source === "memory" ? "memory" : "live"}`;
-
           document.getElementById("reportBox").textContent = data.report;
           document.getElementById("reportSection").classList.add("visible");
 
@@ -854,6 +929,8 @@
           await fetch(`${API}/memory`, { method: "DELETE" });
           await loadMemory();
           document.getElementById("memoryBadge").classList.remove("visible");
+          document.getElementById("subqBlock").classList.remove("visible");
+          document.getElementById("reportSection").classList.remove("visible");
         } catch {
           alert("Could not clear memory — is the API running?");
         }
@@ -871,7 +948,7 @@
         return new Promise((res) => setTimeout(res, ms));
       }
 
-      // Allow Ctrl+Enter to submit
+      // Ctrl+Enter to submit
       document.addEventListener("DOMContentLoaded", () => {
         checkAPI();
         loadMemory();
